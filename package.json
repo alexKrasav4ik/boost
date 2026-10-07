@@ -1,0 +1,13 @@
+{
+  "name": "boost-poker",
+  "version": "1.0.0",
+  "description": "Fast-fold (Boost/Zoom) 6-max NLHE for playing with friends in the browser",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/engine.test.js && node test/game.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

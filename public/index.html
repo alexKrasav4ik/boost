@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Boost Poker</title>
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="landing">
+  <div class="landing-card">
+    <div class="logo">BOOST<span>poker</span></div>
+    <div class="tagline">Быстрый 6-max холдем для своих. Сбросил карты — и сразу за новым столом с новыми картами.</div>
+    <form class="form" id="f">
+      <label>Ваше имя<input type="text" id="name" maxlength="16" required autocomplete="nickname"></label>
+      <div class="row2">
+        <label>Малый блайнд<input type="number" id="sb" value="1" min="1" required></label>
+        <label>Большой блайнд<input type="number" id="bb" value="2" min="1" required></label>
+      </div>
+      <div class="row2">
+        <label>Стартовый закуп<input type="number" id="buyIn" value="200" min="1" required></label>
+        <label>Макс. стек при докупке<input type="number" id="maxBuyIn" value="400" min="1" required></label>
+      </div>
+      <label>Время на ход, сек<input type="number" id="actionTime" value="25" min="5" max="300" required></label>
+      <button class="primary" type="submit" id="go">Создать игру</button>
+      <div id="err" class="neg-net hidden"></div>
+    </form>
+    <div class="how">
+      <b>Как это работает.</b> Создайте игру и отправьте друзьям ссылку. Все игроки попадают в общий пул;
+      сервер собирает из него столы до 6 человек. Нажали «Фолд» — вас сразу пересаживают за новый стол.
+      Стеки и закупы считаются автоматически, во вкладке «Результаты» видно, кто сколько в плюсе.
+    </div>
+  </div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+try { $('name').value = localStorage.getItem('bp:name') || ''; } catch {}
+$('f').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('go').disabled = true;
+  $('err').classList.add('hidden');
+  const settings = { sb: +$('sb').value, bb: +$('bb').value, buyIn: +$('buyIn').value, maxBuyIn: +$('maxBuyIn').value, actionTime: +$('actionTime').value };
+  try {
+    const r = await fetch('/api/games', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: $('name').value, buyIn: settings.buyIn, settings }) });
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.error || 'Ошибка');
+    try { localStorage.setItem('bp:' + j.id, j.token); localStorage.setItem('bp:name', $('name').value); } catch {}
+    location.href = '/g/' + j.id + '#t=' + j.token;
+  } catch (err) {
+    $('err').textContent = err.message;
+    $('err').classList.remove('hidden');
+    $('go').disabled = false;
+  }
+});
+</script>
+</body>
+</html>

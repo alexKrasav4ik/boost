@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Boost Poker</title>
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div id="app" class="hidden">
+  <header class="top">
+    <div class="brand">BOOST<span>poker</span></div>
+    <span class="chip" id="blinds"></span>
+    <span class="chip hide-sm" id="poolChip"></span>
+    <div class="spacer"></div>
+    <div class="mychips"><b id="myChips">0</b><small id="myNet"></small></div>
+    <button id="btnRebuy" title="Докупить фишки">Докупить</button>
+    <button id="btnLedger" title="Результаты игроков">Итоги</button>
+    <button id="btnInvite" class="hide-sm">Пригласить</button>
+    <button id="btnSettings" class="hidden" title="Настройки хоста">Хост</button>
+    <button id="btnSide" class="side-toggle" title="Чат и история">Чат</button>
+  </header>
+  <div class="body">
+    <main id="stage">
+      <div id="tableWrap" class="table-wrap hidden">
+        <div class="felt"></div>
+        <div class="center"><div class="handno" id="handNo"></div><div class="board" id="board"></div><div id="pot"></div><div id="resultBanner"></div></div>
+        <div id="seats"></div>
+      </div>
+      <div id="waiting" class="waiting hidden"></div>
+    </main>
+    <aside class="side" id="side">
+      <div class="tabs">
+        <button data-tab="chat" class="on">Чат</button>
+        <button data-tab="log">Лог стола</button>
+        <button data-tab="hist">Мои раздачи</button>
+      </div>
+      <div class="pane" id="pane"></div>
+      <form class="chat-in" id="chatForm"><input type="text" id="chatInput" maxlength="200" placeholder="Сообщение…" autocomplete="off"><button>→</button></form>
+    </aside>
+  </div>
+  <footer class="actions" id="actions"></footer>
+</div>
+<div id="modalRoot"></div>
+<div id="toast" class="toast hidden"></div>
+<div id="banner" class="banner hidden">Нет соединения с сервером — переподключаемся…</div>
+<script src="/game.js"></script>
+</body>
+</html>

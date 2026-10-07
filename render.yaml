@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: boost-poker
+    runtime: node
+    plan: free
+    buildCommand: echo "no dependencies"
+    startCommand: node server.js
+    healthCheckPath: /ping
